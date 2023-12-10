@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>Contact Us</title>
+	<style>
+	body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.contact-form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+
+
+.error-message {
+    color: red;
+    font-size: 12px;
+}
+
+.form-status {
+    margin-top: 15px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+    <div class="contact-form-container">
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <span class="error-message" id="nameError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error-message" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+                <span class="error-message" id="subjectError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+                <span class="error-message" id="messageError"></span>
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div class="form-status" id="formStatus"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="script.js"></script>
+	<script>
+	$(document).ready(function () {
+    const contactForm = $('#contactForm');
+    const formStatus = $('#formStatus');
+
+    contactForm.submit(function (event) {
+        event.preventDefault();
+
+        // Clear previous error messages and form status.
+        $('.error-message').text('');
+        formStatus.text('');
+
+        // Validate the form
+        if (!validateForm()) {
+            return;
+        }
+
+        // Disable the submit button to prevent multiple submissions.
+        contactForm.find('button').prop('disabled', true);
+
+        // Simulate form submission delay (replace this with actual AJAX request).
+        setTimeout(function () {
+            // For demonstration purposes, log the form data to the console.
+            const formData = contactForm.serialize();
+            console.log(formData);
+
+            // Display a success message.
+            formStatus.text('Form submitted successfully!');
+
+            // Re-enable the submit button after submission.
+            contactForm.find('button').prop('disabled', false);
+
+            // Reset the form after successful submission.
+            contactForm[0].reset();
+        }, 1000);
+    });
+
+    function validateForm() {
+        let isValid = true;
+
+        // Simple email validation
+        const emailInput = $('#email');
+        const emailError = $('#emailError');
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(emailInput.val())) {
+            emailError.text('Enter a valid email address.');
+            isValid = false;
+        }
+
+        // Other form field validations go here...
+
+        return isValid;
+    }
+});
+</script>
+</body>
+</html>
